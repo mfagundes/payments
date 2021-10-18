@@ -103,3 +103,9 @@ How to develop
 ### Tips
 
 - Before commit run `make autopep8` to organize all your code
+
+Whitenoise
+----------
+
+To serve static files locally, I installed [Whitenoise](http://whitenoise.evans.io/en/stable/)
+
