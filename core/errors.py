@@ -1,0 +1,2 @@
+class CNPJException(Exception):
+    pass

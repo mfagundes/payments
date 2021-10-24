@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from model_mommy import mommy
 
@@ -68,3 +69,21 @@ class ModelTestCase(TestCase):
         # user can access admin
         admin_resp = self.client.post('/admin/', **credentials)
         self.assertEqual(200, admin_resp.status_code)
+
+    def test_profile_details(self):
+        user = mommy.make('User')
+        user_profile = Profile.objects.get(user=user)
+        user_profile.company_name = 'Empresa Ltda'
+        user_profile.cnpj = '34135215000131'
+        user_profile.save()
+
+        saved_user = self.user_model.objects.get(pk=user.id)
+
+        assert saved_user.profile.profile_type_id == Profile.PROVIDER
+        assert saved_user.profile.company_name == 'Empresa Ltda'
+        assert saved_user.profile.cnpj == '34135215000131'
+
+        # invalid CNPJ
+        user_profile.cnpj = '01234567000109'
+        with self.assertRaises(ValidationError):
+            user_profile.save()

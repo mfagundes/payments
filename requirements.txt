@@ -8,6 +8,7 @@ django-dbbackup
 django-debug-toolbar
 django-extensions
 django-filter
+django-localflavor
 django-logentry-admin
 gunicorn
 jsondate

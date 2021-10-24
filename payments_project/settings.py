@@ -217,4 +217,5 @@ DBBACKUP_STORAGE_OPTIONS = {'location': config('DBBACKUP_STORAGE_OPTIONS',
 AUTHENTICATION_BACKENDS = ['core.backends.EmailBackend']
 
 def custom_show_toolbar(request):
-    return True  # Always show toolbar, for example purposes only.
+    # Remove toolbar as it was breaking pytest with migrations
+    return False  # Always show toolbar, for example purposes only.

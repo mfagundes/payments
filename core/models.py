@@ -1,4 +1,7 @@
 from django.db import models
+
+from core.errors import CNPJException
+from core.validators import validate_cnpj
 from utils.models import Base
 from django.contrib.auth.models import User
 
@@ -21,7 +24,20 @@ class Profile(Base):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_type_id = models.IntegerField('Perfil', default=PROVIDER, choices=PROFILE_NAME_OPTIONS)  # default is Provider
+    company_name = models.CharField('Razão Social', max_length=100, null=True)
+    cnpj = models.CharField('CNPJ', max_length=14, unique=True, null=True, help_text='Apenas números')
 
     def __str__(self):
         return "perfil do usuário {}".format(self.user)
+
+    def clean(self):
+        if self.cnpj:
+            validate_cnpj(self.cnpj)
+
+    def save(self, *args, **kwargs):
+        try:
+            self.clean()
+        except CNPJException:
+            pass
+        super(Profile, self).save()
 
