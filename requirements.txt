@@ -17,3 +17,4 @@ python-decouple
 pytz
 raven
 redis
+whitenoise
