@@ -41,3 +41,15 @@ class Profile(Base):
             pass
         super(Profile, self).save()
 
+
+class Payment(Base):
+    provider = models.ForeignKey(User, verbose_name='fornecedor', on_delete=models.CASCADE)
+    issue_date = models.DateTimeField('Data de emissão')
+    due_date = models.DateField('Data de vencimento')
+    description = models.CharField('Descrição', max_length=255, null=True, blank=True)
+    value = models.DecimalField('Valor', max_digits=9, decimal_places=2)  # supports up to 9,999,999.99
+
+    class Meta:
+        verbose_name = 'pagamento'
+        verbose_name_plural = 'pagamentos'
+        ordering = ('-due_date',)

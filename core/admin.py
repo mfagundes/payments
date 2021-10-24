@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 
 from utils.admin import BaseAdmin, BaseInlineStackedAdmin
-from core.models import Profile
+from core.models import Profile, Payment
 
 
 class ProfileInline(BaseInlineStackedAdmin):
@@ -24,6 +24,18 @@ class UserAdmin(BaseAdmin):
     inlines = (ProfileInline,)
     list_display = ('username', 'email', 'is_staff')
     list_filter = ('is_staff',)
+    search_fields = ('profile__company_name', )
+
+
+@admin.register(Payment)
+class PaymentAdmin(BaseAdmin):
+    """
+    Admin for payments, to allow company operators to add and change
+    """
+    list_display = ('provider', 'due_date', 'value')
+    ordering = ('due_date',)
+    autocomplete_fields = ('provider',)
+    list_filter = ('provider__profile__company_name',)
 
 
 admin.site.unregister(User)
