@@ -1,5 +1,9 @@
 from datetime import datetime
 
+from decouple import config
+
+from core.errors import CalculationException
+
 
 def cleaning_date_to_use_with_celery(day):
     if isinstance(day, str):
@@ -27,3 +31,20 @@ def create_logentry(creator, object, message=None, is_change=False):
         action_flag=CHANGE if is_change else ADDITION,
         change_message=message,
     )
+
+
+def calculate_discount(current_value, due_date, new_date):
+    daily_discount = config('DAILY_DISCOUNT', default=0, cast=float)
+    if not new_date:
+        raise CalculationException
+
+    try:
+        date_diff = due_date - new_date
+        if date_diff.days <= 0:
+            #TODO treat errors
+            raise CalculationException("Data igual ou inferior à data de vencimento")
+        total_discount = (daily_discount / 30) * date_diff.days
+        new_value = round(current_value * (1 - total_discount), ndigits=2)
+        return new_value
+    except CalculationException:
+        pass
