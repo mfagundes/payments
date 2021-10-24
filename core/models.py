@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 from core.errors import CNPJException
@@ -53,3 +55,7 @@ class Payment(Base):
         verbose_name = 'pagamento'
         verbose_name_plural = 'pagamentos'
         ordering = ('-due_date',)
+
+    def __str__(self):
+        due_date = self.due_date.strftime("%d/%m/%Y")
+        return f"Pagamento de {self.value} do {self.provider.profile.company_name}, vencimento em {due_date}"
