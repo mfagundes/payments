@@ -13,3 +13,7 @@ class ReadOnlyAdmin(BaseAdmin):
 
     def get_readonly_fields(self, *args, **kwargs):
         return [f.name for f in self.model._meta.fields]
+
+
+class BaseInlineStackedAdmin(admin.StackedInline):
+    exclude = ['created', 'updated']

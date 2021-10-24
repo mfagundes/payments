@@ -214,5 +214,7 @@ DBBACKUP_STORAGE_OPTIONS = {'location': config('DBBACKUP_STORAGE_OPTIONS',
                                                default='/app/')}
 
 
+AUTHENTICATION_BACKENDS = ['core.backends.EmailBackend']
+
 def custom_show_toolbar(request):
     return True  # Always show toolbar, for example purposes only.
