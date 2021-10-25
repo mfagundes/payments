@@ -44,7 +44,7 @@ def calculate_discount(current_value, due_date, new_date):
             #TODO treat errors
             raise CalculationException("Data igual ou inferior à data de vencimento")
         total_discount = (daily_discount / 30) * date_diff.days
-        new_value = round(current_value * (1 - total_discount), ndigits=2)
+        new_value = round(float(current_value) * (1 - total_discount), ndigits=2)
         return new_value
     except CalculationException:
         pass
