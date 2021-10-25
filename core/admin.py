@@ -1,6 +1,7 @@
 from django.contrib import admin
-# from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
+from django.contrib.admin.options import BaseModelAdmin
 
 from utils.admin import BaseAdmin, BaseInlineStackedAdmin
 from core.models import Profile, Payment, PaymentAdvance
@@ -29,7 +30,7 @@ class PaymentAdvanceInlineAdmin(BaseInlineStackedAdmin):
 
 
 # Define a new User admin
-class UserAdmin(BaseAdmin):
+class UserAdmin(BaseUserAdmin):
     """
     Overwrite BaseAdmin to include profile inline
     """
